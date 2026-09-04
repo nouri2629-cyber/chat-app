@@ -1,827 +1,293 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>پیام‌رسان</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیام‌رسان حرفه‌ای</title>
     <style>
-        /* ===== ریست ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-        }
+        /* ===== استایل کامل ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, sans-serif; }
+        body { background: #eef2f7; height: 100vh; overflow: hidden; }
 
-        body {
-            background: #eef2f7;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
-
-        /* ===== لاگین ===== */
+        /* لاگین */
         .login-box {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 28px;
-            padding: 40px 30px;
-            width: 90%;
-            max-width: 380px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
-            text-align: center;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; border-radius: 28px; padding: 40px 30px;
+            width: 90%; max-width: 380px; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
         }
-
-        .login-box h1 {
-            font-size: 26px;
-            color: #1a1a2e;
-            margin-bottom: 4px;
-        }
-
-        .login-box p {
-            color: #8e8ea0;
-            font-size: 14px;
-            margin-bottom: 24px;
-        }
-
+        .login-box h1 { font-size: 26px; color: #1a1a2e; }
+        .login-box p { color: #8e8ea0; font-size: 14px; margin: 4px 0 20px; }
         .login-box input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1.5px solid #eef2f7;
-            border-radius: 14px;
-            background: #f8f9fc;
-            font-size: 14px;
-            margin-bottom: 10px;
-            outline: none;
-            transition: 0.2s;
+            width: 100%; padding: 14px 16px; border: 1.5px solid #eef2f7;
+            border-radius: 14px; background: #f8f9fc; font-size: 14px;
+            margin-bottom: 10px; outline: none;
         }
-
-        .login-box input:focus {
-            border-color: #5b5fef;
-            background: white;
-        }
-
+        .login-box input:focus { border-color: #5b5fef; background: white; }
         .login-box .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: #5b5fef;
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 4px;
+            width: 100%; padding: 14px; background: #5b5fef; color: white;
+            border: none; border-radius: 14px; font-weight: 600; font-size: 15px;
+            cursor: pointer; margin-top: 4px;
         }
-
-        .login-box .btn-login:hover {
-            background: #4a4ed4;
-        }
-
+        .login-box .btn-login:hover { background: #4a4ed4; }
         .login-box .btn-register {
-            width: 100%;
-            padding: 14px;
-            background: transparent;
-            color: #5b5fef;
-            border: 1.5px solid #eef2f7;
-            border-radius: 14px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            margin-top: 8px;
+            width: 100%; padding: 14px; background: transparent; color: #5b5fef;
+            border: 1.5px solid #eef2f7; border-radius: 14px; font-weight: 600;
+            font-size: 15px; cursor: pointer; margin-top: 8px;
         }
+        .login-box .btn-register:hover { background: #f8f9fc; }
+        #loginStatus { color: #ff6b6b; font-size: 13px; margin-top: 12px; min-height: 20px; }
 
-        .login-box .btn-register:hover {
-            background: #f8f9fc;
-        }
-
-        #loginStatus {
-            color: #ff6b6b;
-            font-size: 13px;
-            margin-top: 12px;
-            min-height: 20px;
-        }
-
-        /* ===== صفحه اصلی چت ===== */
-        #chatPage {
-            display: none;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            background: #eef2f7;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-        }
+        /* ===== صفحه چت ===== */
+        #chatPage { display: none; width: 100vw; height: 100vh; background: #eef2f7; }
+        .chat-container { display: flex; flex-direction: column; width: 100%; height: 100%; }
 
         /* ===== سایدبار ===== */
         .sidebar {
-            background: white;
-            padding: 16px 16px 10px;
-            border-bottom: 1px solid #eef2f7;
-            max-height: 40vh;
-            overflow-y: auto;
-            flex-shrink: 0;
+            background: white; padding: 16px; border-bottom: 1px solid #eef2f7;
+            max-height: 40vh; overflow-y: auto; flex-shrink: 0;
         }
-
-        .sidebar .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .sidebar .header h3 {
-            font-size: 17px;
-            color: #1a1a2e;
-        }
-
-        .sidebar .header span {
-            background: #f0f2f5;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: #8e8ea0;
-        }
+        .sidebar .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .sidebar .header h3 { font-size: 17px; color: #1a1a2e; }
+        .sidebar .header span { background: #f0f2f5; padding: 2px 12px; border-radius: 20px; font-size: 12px; color: #8e8ea0; }
 
         .chat-item {
-            background: #f8f9fc;
-            padding: 12px 14px;
-            border-radius: 14px;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: 0.2s;
+            background: #f8f9fc; padding: 12px 14px; border-radius: 14px;
+            margin-bottom: 6px; display: flex; justify-content: space-between;
+            align-items: center; cursor: pointer; transition: 0.2s;
             border: 1px solid transparent;
-            position: relative;
         }
-
-        .chat-item:hover {
-            background: #f0f2f5;
-        }
-
-        .chat-item.active {
-            border-color: #5b5fef;
-            background: #f0f2fe;
-        }
-
-        .chat-item .info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-item .name {
-            font-weight: 600;
-            color: #1a1a2e;
-            font-size: 14px;
-        }
-
-        .chat-item .last {
-            font-size: 12px;
-            color: #8e8ea0;
-            margin-top: 2px;
-        }
-
-        .chat-item .badge {
-            background: #5b5fef;
-            color: white;
-            font-size: 10px;
-            font-weight: 600;
-            padding: 2px 10px;
-            border-radius: 20px;
-        }
+        .chat-item:hover { background: #f0f2f5; }
+        .chat-item.active { border-color: #5b5fef; background: #f0f2fe; }
+        .chat-item .info { display: flex; flex-direction: column; }
+        .chat-item .name { font-weight: 600; color: #1a1a2e; font-size: 14px; }
+        .chat-item .last { font-size: 12px; color: #8e8ea0; margin-top: 2px; }
+        .chat-item .badge { background: #5b5fef; color: white; font-size: 10px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
 
         .sidebar .actions {
-            display: flex;
-            gap: 6px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #eef2f7;
-            flex-wrap: wrap;
+            display: flex; gap: 6px; margin-top: 12px; padding-top: 12px;
+            border-top: 1px solid #eef2f7; flex-wrap: wrap;
         }
-
         .sidebar .actions button {
-            flex: 1;
-            padding: 8px 6px;
-            background: #f8f9fc;
-            border: none;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #4a4a5a;
-            cursor: pointer;
-            transition: 0.2s;
-            min-width: 50px;
+            flex: 1; padding: 8px 6px; background: #f8f9fc; border: none;
+            border-radius: 12px; font-size: 12px; font-weight: 500;
+            color: #4a4a5a; cursor: pointer; min-width: 50px;
         }
+        .sidebar .actions button:hover { background: #f0f2f5; }
+        .sidebar .actions .danger { color: #ff6b6b; }
+        .sidebar .actions .danger:hover { background: #fff0ee; }
 
-        .sidebar .actions button:hover {
-            background: #f0f2f5;
-        }
-
-        .sidebar .actions .danger {
-            color: #ff6b6b;
-        }
-
-        .sidebar .actions .danger:hover {
-            background: #fff0ee;
-        }
-
-        /* ===== هدر چت ===== */
+        /* ===== هدر چت با فلش ===== */
         .chat-header {
-            background: white;
-            padding: 12px 16px;
-            border-bottom: 1px solid #eef2f7;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
+            background: white; padding: 12px 16px; border-bottom: 1px solid #eef2f7;
+            display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
         }
-
-        .chat-header .left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .chat-header .left { display: flex; align-items: center; gap: 10px; }
         .chat-header .back {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #5b5fef;
-            cursor: pointer;
-            padding: 0 4px;
-            line-height: 1;
+            background: none; border: none; font-size: 28px; color: #5b5fef;
+            cursor: pointer; padding: 0 4px; line-height: 1;
+            transition: 0.2s;
         }
-
-        .chat-header .back:hover {
-            color: #4a4ed4;
-        }
-
-        .chat-header .title {
-            font-weight: 600;
-            font-size: 16px;
-            color: #1a1a2e;
-        }
-
-        .chat-header .title small {
-            font-weight: 400;
-            font-size: 11px;
-            color: #8e8ea0;
-            margin-right: 6px;
-        }
-
+        .chat-header .back:hover { color: #4a4ed4; transform: scale(1.1); }
+        .chat-header .title { font-weight: 600; font-size: 16px; color: #1a1a2e; }
+        .chat-header .title small { font-weight: 400; font-size: 11px; color: #8e8ea0; margin-right: 6px; }
         .chat-header .right button {
-            background: none;
-            border: none;
-            font-size: 18px;
-            color: #8e8ea0;
-            cursor: pointer;
-            padding: 4px 6px;
+            background: none; border: none; font-size: 18px; color: #8e8ea0;
+            cursor: pointer; padding: 4px 6px; transition: 0.2s;
         }
-
-        .chat-header .right button:hover {
-            color: #1a1a2e;
-        }
+        .chat-header .right button:hover { color: #1a1a2e; }
 
         /* ===== پیام‌ها ===== */
         #messages {
-            flex: 1;
-            padding: 16px 14px 8px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            flex: 1; padding: 16px 14px 8px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 4px;
         }
-
-        #messages .empty {
-            color: #b0b0c0;
-            text-align: center;
-            margin: auto;
-            font-size: 15px;
-        }
+        #messages .empty { color: #b0b0c0; text-align: center; margin: auto; font-size: 15px; }
 
         .msg-wrapper {
-            display: flex;
-            flex-direction: column;
-            max-width: 80%;
+            display: flex; flex-direction: column; max-width: 80%;
             animation: pop 0.2s ease;
         }
-
-        .msg-wrapper.own {
-            align-self: flex-end;
-        }
-
-        .msg-wrapper.other {
-            align-self: flex-start;
-        }
-
+        .msg-wrapper.own { align-self: flex-end; }
+        .msg-wrapper.other { align-self: flex-start; }
         @keyframes pop {
-            from {
-                opacity: 0;
-                transform: scale(0.92) translateY(6px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            from { opacity: 0; transform: scale(0.92) translateY(6px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .msg-bubble {
-            padding: 10px 16px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.5;
-            word-wrap: break-word;
-            position: relative;
+            padding: 10px 16px; border-radius: 18px; font-size: 14px;
+            line-height: 1.5; word-wrap: break-word; position: relative;
         }
-
         .msg-wrapper.own .msg-bubble {
-            background: #5b5fef;
-            color: white;
-            border-bottom-right-radius: 4px;
+            background: #5b5fef; color: white; border-bottom-right-radius: 4px;
         }
-
         .msg-wrapper.other .msg-bubble {
-            background: white;
-            color: #1a1a2e;
-            border-bottom-left-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            background: white; color: #1a1a2e; border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
+        .msg-bubble .time { font-size: 10px; opacity: 0.5; margin-top: 4px; text-align: left; }
+        .msg-wrapper.own .msg-bubble .time { opacity: 0.7; }
+        .msg-bubble .emoji-only { font-size: 40px; line-height: 1.2; }
+        .msg-bubble.selected { background: #d6d8ff !important; border: 1.5px solid #5b5fef; }
 
-        .msg-bubble .time {
-            font-size: 10px;
-            opacity: 0.5;
-            margin-top: 4px;
-            text-align: left;
-        }
-
-        .msg-wrapper.own .msg-bubble .time {
-            opacity: 0.7;
-        }
-
-        .msg-bubble .emoji-only {
-            font-size: 40px;
-            line-height: 1.2;
-        }
-
-        .msg-bubble .delete-btn {
-            background: none;
-            border: none;
-            font-size: 12px;
-            opacity: 0.3;
-            cursor: pointer;
-            padding: 0 4px;
-        }
-
-        .msg-bubble .delete-btn:hover {
-            opacity: 1;
-        }
-
-        .msg-bubble.selected {
-            background: #d6d8ff !important;
-            border: 1.5px solid #5b5fef;
-        }
-
-        /* ===== هدر انتخاب ===== */
+        /* ===== نوار انتخاب ===== */
         .selection-bar {
-            display: none;
-            background: white;
-            padding: 10px 16px;
+            display: none; background: white; padding: 10px 16px;
             border-bottom: 1px solid #eef2f7;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: space-between; align-items: center;
         }
-
-        .selection-bar.show {
-            display: flex;
-        }
-
-        .selection-bar .info {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1a1a2e;
-        }
-
-        .selection-bar .info span {
-            color: #5b5fef;
-        }
-
-        .selection-bar .actions {
-            display: flex;
-            gap: 8px;
-        }
-
+        .selection-bar.show { display: flex; }
+        .selection-bar .info { font-size: 14px; font-weight: 500; color: #1a1a2e; }
+        .selection-bar .info span { color: #5b5fef; }
+        .selection-bar .actions { display: flex; gap: 8px; }
         .selection-bar .actions button {
-            padding: 6px 14px;
-            border: none;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 6px 14px; border: none; border-radius: 10px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
         }
-
-        .selection-bar .actions .cancel {
-            background: #f8f9fc;
-            color: #8e8ea0;
-        }
-
-        .selection-bar .actions .cancel:hover {
-            background: #f0f2f5;
-        }
-
-        .selection-bar .actions .delete {
-            background: #ff6b6b;
-            color: white;
-        }
-
-        .selection-bar .actions .delete:hover {
-            background: #e55555;
-        }
+        .selection-bar .actions .cancel { background: #f8f9fc; color: #8e8ea0; }
+        .selection-bar .actions .cancel:hover { background: #f0f2f5; }
+        .selection-bar .actions .delete { background: #ff6b6b; color: white; }
+        .selection-bar .actions .delete:hover { background: #e55555; }
 
         /* ===== ورودی ===== */
         .input-area {
-            background: white;
-            padding: 10px 16px 14px;
-            border-top: 1px solid #eef2f7;
-            flex-shrink: 0;
+            background: white; padding: 10px 16px 14px;
+            border-top: 1px solid #eef2f7; flex-shrink: 0;
         }
-
         .input-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f8f9fc;
-            border-radius: 28px;
-            padding: 2px 4px 2px 14px;
-            border: 1.5px solid #eef2f7;
+            display: flex; align-items: center; gap: 8px;
+            background: #f8f9fc; border-radius: 28px;
+            padding: 2px 4px 2px 14px; border: 1.5px solid #eef2f7;
             transition: 0.2s;
         }
-
-        .input-row:focus-within {
-            border-color: #5b5fef;
-            background: white;
-        }
-
+        .input-row:focus-within { border-color: #5b5fef; background: white; }
         .input-row input {
-            flex: 1;
-            padding: 10px 0;
-            border: none;
-            background: transparent;
-            font-size: 14px;
-            outline: none;
-            color: #1a1a2e;
-            min-width: 0;
+            flex: 1; padding: 10px 0; border: none; background: transparent;
+            font-size: 14px; outline: none; color: #1a1a2e; min-width: 0;
         }
-
-        .input-row input::placeholder {
-            color: #b0b0c0;
-        }
-
+        .input-row input::placeholder { color: #b0b0c0; }
         .input-row .emoji-btn {
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: #8e8ea0;
-            cursor: pointer;
-            padding: 4px;
+            background: none; border: none; font-size: 20px; color: #8e8ea0;
+            cursor: pointer; padding: 4px;
         }
-
-        .input-row .emoji-btn:hover {
-            color: #1a1a2e;
-        }
-
+        .input-row .emoji-btn:hover { color: #1a1a2e; }
         .input-row .send-btn {
-            padding: 10px 20px;
-            background: #5b5fef;
-            color: white;
-            border: none;
-            border-radius: 24px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.2s;
+            padding: 10px 20px; background: #5b5fef; color: white;
+            border: none; border-radius: 24px; font-weight: 600;
+            font-size: 13px; cursor: pointer; transition: 0.2s;
         }
-
-        .input-row .send-btn:hover {
-            background: #4a4ed4;
-        }
+        .input-row .send-btn:hover { background: #4a4ed4; }
 
         .emoji-panel {
-            display: none;
-            background: white;
-            padding: 12px 14px;
-            border-radius: 14px;
-            margin-top: 8px;
-            border: 1px solid #eef2f7;
-            flex-wrap: wrap;
-            gap: 4px;
+            display: none; background: white; padding: 12px 14px;
+            border-radius: 14px; margin-top: 8px; border: 1px solid #eef2f7;
+            flex-wrap: wrap; gap: 4px;
         }
-
-        .emoji-panel.open {
-            display: flex;
-        }
-
+        .emoji-panel.open { display: flex; }
         .emoji-panel span {
-            font-size: 24px;
-            cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 8px;
-            transition: 0.2s;
+            font-size: 24px; cursor: pointer; padding: 4px 6px;
+            border-radius: 8px; transition: 0.2s;
         }
-
-        .emoji-panel span:hover {
-            transform: scale(1.3);
-            background: #f8f9fc;
-        }
+        .emoji-panel span:hover { transform: scale(1.3); background: #f8f9fc; }
 
         /* ===== مودال‌ها ===== */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(4px);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px); z-index: 999;
+            justify-content: center; align-items: center; padding: 20px;
         }
-
-        .modal-overlay.open {
-            display: flex;
-        }
-
+        .modal-overlay.open { display: flex; }
         .modal-box {
-            background: white;
-            border-radius: 20px;
-            padding: 28px 24px;
-            max-width: 360px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            animation: scaleIn 0.2s ease;
+            background: white; border-radius: 20px; padding: 28px 24px;
+            max-width: 360px; width: 100%; animation: scaleIn 0.2s ease;
         }
-
         @keyframes scaleIn {
-            from {
-                transform: scale(0.92);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
-
-        .modal-box h2 {
-            font-size: 18px;
-            color: #1a1a2e;
-            margin-bottom: 4px;
-        }
-
-        .modal-box p {
-            color: #8e8ea0;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
+        .modal-box h2 { font-size: 18px; color: #1a1a2e; margin-bottom: 4px; }
+        .modal-box p { color: #8e8ea0; font-size: 14px; margin-bottom: 16px; }
         .modal-box input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid #eef2f7;
-            border-radius: 12px;
-            font-size: 14px;
-            outline: none;
-            margin-bottom: 12px;
+            width: 100%; padding: 12px 14px; border: 1.5px solid #eef2f7;
+            border-radius: 12px; font-size: 14px; outline: none; margin-bottom: 12px;
         }
-
-        .modal-box input:focus {
-            border-color: #5b5fef;
-        }
-
-        .modal-box .actions {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-        }
-
+        .modal-box input:focus { border-color: #5b5fef; }
+        .modal-box .actions { display: flex; gap: 8px; justify-content: flex-end; }
         .modal-box .actions button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
+            padding: 10px 20px; border: none; border-radius: 12px;
+            font-weight: 600; font-size: 13px; cursor: pointer;
         }
+        .modal-box .actions .cancel { background: #f8f9fc; color: #8e8ea0; }
+        .modal-box .actions .cancel:hover { background: #f0f2f5; }
+        .modal-box .actions .confirm { background: #5b5fef; color: white; }
+        .modal-box .actions .confirm:hover { background: #4a4ed4; }
+        .modal-box .actions .confirm.danger { background: #ff6b6b; }
+        .modal-box .actions .confirm.danger:hover { background: #e55555; }
 
-        .modal-box .actions .cancel {
-            background: #f8f9fc;
-            color: #8e8ea0;
-        }
-
-        .modal-box .actions .cancel:hover {
-            background: #f0f2f5;
-        }
-
-        .modal-box .actions .confirm {
-            background: #5b5fef;
-            color: white;
-        }
-
-        .modal-box .actions .confirm:hover {
-            background: #4a4ed4;
-        }
-
-        .modal-box .actions .confirm.danger {
-            background: #ff6b6b;
-        }
-
-        .modal-box .actions .confirm.danger:hover {
-            background: #e55555;
-        }
-
-        /* ===== مودال QR ===== */
+        /* ===== QR ===== */
         .qr-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(4px);
-            z-index: 999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px); z-index: 999;
+            justify-content: center; align-items: center; padding: 20px;
         }
-
-        .qr-modal.open {
-            display: flex;
-        }
-
+        .qr-modal.open { display: flex; }
         .qr-modal .box {
-            background: white;
-            border-radius: 20px;
-            padding: 28px 24px;
-            max-width: 360px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            background: white; border-radius: 20px; padding: 28px 24px;
+            max-width: 360px; width: 100%; text-align: center;
             animation: scaleIn 0.2s ease;
         }
-
-        .qr-modal .box h2 {
-            font-size: 18px;
-            color: #1a1a2e;
-        }
-
-        .qr-modal .box p {
-            color: #8e8ea0;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
-
+        .qr-modal .box h2 { font-size: 18px; color: #1a1a2e; }
+        .qr-modal .box p { color: #8e8ea0; font-size: 13px; margin-bottom: 16px; }
         .qr-modal .box img {
-            width: 160px;
-            height: 160px;
-            border-radius: 12px;
-            border: 1px solid #eef2f7;
-            padding: 6px;
-            background: white;
+            width: 160px; height: 160px; border-radius: 12px;
+            border: 1px solid #eef2f7; padding: 6px; background: white;
         }
-
         .qr-modal .box .link {
-            font-size: 11px;
-            color: #8e8ea0;
-            word-break: break-all;
-            margin: 12px 0;
-            background: #f8f9fc;
-            padding: 8px 12px;
+            font-size: 11px; color: #8e8ea0; word-break: break-all;
+            margin: 12px 0; background: #f8f9fc; padding: 8px 12px;
             border-radius: 10px;
         }
-
-        .qr-modal .box .qr-actions {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-        }
-
+        .qr-modal .box .qr-actions { display: flex; gap: 8px; justify-content: center; }
         .qr-modal .box .qr-actions button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
+            padding: 10px 20px; border: none; border-radius: 12px;
+            font-weight: 600; font-size: 13px; cursor: pointer;
         }
-
-        .qr-modal .box .qr-actions .copy {
-            background: #f8f9fc;
-            border: 1px solid #eef2f7;
-            color: #4a4a5a;
-        }
-
-        .qr-modal .box .qr-actions .copy:hover {
-            background: #f0f2f5;
-        }
-
-        .qr-modal .box .qr-actions .close {
-            background: #5b5fef;
-            color: white;
-        }
-
-        .qr-modal .box .qr-actions .close:hover {
-            background: #4a4ed4;
-        }
+        .qr-modal .box .qr-actions .copy { background: #f8f9fc; border: 1px solid #eef2f7; color: #4a4a5a; }
+        .qr-modal .box .qr-actions .copy:hover { background: #f0f2f5; }
+        .qr-modal .box .qr-actions .close { background: #5b5fef; color: white; }
+        .qr-modal .box .qr-actions .close:hover { background: #4a4ed4; }
 
         /* ===== منوی زمینه ===== */
         .context-menu {
-            display: none;
-            position: fixed;
-            background: white;
-            border-radius: 14px;
-            padding: 6px;
-            min-width: 170px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid #eef2f7;
-            z-index: 1000;
+            display: none; position: fixed; background: white;
+            border-radius: 14px; padding: 6px; min-width: 170px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+            border: 1px solid #eef2f7; z-index: 1000;
         }
-
-        .context-menu.open {
-            display: block;
-        }
-
+        .context-menu.open { display: block; }
         .context-menu .item {
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            color: #1a1a2e;
-            transition: 0.2s;
+            padding: 10px 14px; display: flex; align-items: center;
+            gap: 10px; border-radius: 10px; cursor: pointer;
+            font-size: 14px; color: #1a1a2e; transition: 0.2s;
         }
-
-        .context-menu .item:hover {
-            background: #f8f9fc;
-        }
-
-        .context-menu .item.danger {
-            color: #ff6b6b;
-        }
-
-        .context-menu .item.danger:hover {
-            background: #fff0ee;
-        }
+        .context-menu .item:hover { background: #f8f9fc; }
+        .context-menu .item.danger { color: #ff6b6b; }
+        .context-menu .item.danger:hover { background: #fff0ee; }
 
         /* ===== ریسپانسیو ===== */
         @media (min-width: 769px) {
-            .chat-container {
-                flex-direction: row;
-            }
-            .sidebar {
-                max-height: 100vh;
-                width: 340px;
-                border-bottom: none;
-                border-left: 1px solid #eef2f7;
-                padding: 20px;
-            }
-            .chat-header .back {
-                display: none !important;
-            }
-            .main-chat {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                height: 100vh;
-            }
-            #messages {
-                flex: 1;
-            }
+            .chat-container { flex-direction: row; }
+            .sidebar { max-height: 100vh; width: 340px; border-bottom: none; border-left: 1px solid #eef2f7; padding: 20px; }
+            .chat-header .back { display: none !important; }
+            .main-chat { flex: 1; display: flex; flex-direction: column; height: 100vh; }
+            #messages { flex: 1; }
         }
-
         @media (max-width: 768px) {
-            .sidebar {
-                max-height: 38vh;
-            }
-            .chat-header .back {
-                display: block;
-            }
+            .sidebar { max-height: 38vh; }
+            .chat-header .back { display: block; }
         }
     </style>
 </head>
@@ -862,7 +328,7 @@
             <div class="main-chat">
                 <div class="chat-header">
                     <div class="left">
-                        <button class="back" onclick="goBack()">‹</button>
+                        <button class="back" onclick="goBack()">←</button>
                         <span class="title" id="chatTitle">چت <small>انتخاب کنید</small></span>
                     </div>
                     <div class="right">
@@ -949,16 +415,12 @@
         <div class="item danger" onclick="deleteGroup()">🗑️ حذف گروه</div>
     </div>
 
-    <!-- ===== Firebase ===== -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js">
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js">
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
     <script>
-        // ===== تنظیمات Firebase =====
+        // ===== تنظیمات Firebase (کلید خودتون) =====
         const firebaseConfig = {
             apiKey: "AIzaSyDjSxc6Xm1p6lDK0SvEeF5O7gt6kTDt11s",
             authDomain: "payam-3d.firebaseapp.com",
@@ -1531,10 +993,8 @@
             alert('📞 تماس برای "' + currentChatName + '" ارسال شد!');
         }
 
-        console.log('✅ پیام‌رسان با گرافیک جدید و فلش برگشت آماده است!');
-        console.log('🔗 https://nour12629-cyber.github.io/chat-app/');
-        console.log('📌 روی گروه یا پیام نگه دارید تا منو باز شود');
-        console.log('← فلش برگشت برای خروج از چت');
+        console.log('✅ پیام‌رسان با فلش برگشت آماده است!');
+        console.log('← روی فلش برگشت کلیک کنید تا از چت خارج شوید');
     </script>
 
 </body>
